@@ -1,7 +1,10 @@
 # soraka-view
 
 #### 项目介绍
-soraka admin ui
+
+> a vue.js admin for saraka.
+Soraka项目地址：[https://gitee.com/beiyoufx/soraka](https://gitee.com/beiyoufx/soraka)
+
 
 #### 软件架构
 软件架构说明
@@ -9,9 +12,19 @@ soraka admin ui
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
 
 #### 使用说明
 
