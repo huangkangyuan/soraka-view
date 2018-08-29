@@ -70,4 +70,29 @@ service.interceptors.response.use(
   }
 )
 
+// 通用方法
+export const POST = (url, params) => {
+  return service.post(url, params).then(res => res)
+}
+
+export const GET = (url, params) => {
+  return service.get(url, {
+    params: params
+  }).then(res => res)
+}
+
+export const PUT = (url, params) => {
+  return service.put(url, params).then(res => res)
+}
+
+export const DELETE = (url, params) => {
+  return service.delete(url, {
+    params: params
+  }).then(res => res)
+}
+
+export const PATCH = (url, params) => {
+  return service.patch(url, params).then(res => res)
+}
+
 export default service

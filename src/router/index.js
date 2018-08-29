@@ -60,19 +60,6 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
     path: '/nested',
     component: Layout,
     redirect: '/nested/menu1',
@@ -131,12 +118,23 @@ export const constantRouterMap = [
   },
 
   {
-    path: 'external-link',
+    path: '/user',
     component: Layout,
+    redirect: '/user/profile',
+    name: '用户管理',
+    meta: { title: '用户管理', icon: 'user' },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'externalLink', icon: 'link' }
+        path: 'list',
+        name: '用户列表',
+        component: () => import('@/views/user/profile'),
+        meta: { title: '用户列表', icon: 'profile' }
+      },
+      {
+        path: 'profile',
+        name: '个人资料',
+        component: () => import('@/views/user/profile'),
+        meta: { title: '个人资料', icon: 'profile' }
       }
     ]
   },
