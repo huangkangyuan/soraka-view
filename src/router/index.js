@@ -29,11 +29,11 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      component: () => import('@/views/dashboard/index'),
+      name: 'dashboard',
+      meta: { title: '首页', icon: 'dashboard', noCache: true }
     }]
   },
 
@@ -121,18 +121,18 @@ export const constantRouterMap = [
     path: '/user',
     component: Layout,
     redirect: '/user/list',
-    name: '用户管理',
+    name: 'user',
     meta: { title: '用户管理', icon: 'peoples' },
     children: [
       {
         path: 'list',
-        name: '用户列表',
+        name: 'list',
         component: () => import('@/views/user/list'),
         meta: { title: '用户列表', icon: 'list' }
       },
       {
         path: 'profile',
-        name: '个人资料',
+        name: 'profile',
         component: () => import('@/views/user/profile'),
         meta: { title: '个人资料', icon: 'user' }
       }
