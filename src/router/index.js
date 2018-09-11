@@ -135,6 +135,19 @@ export const constantRouterMap = [
         name: 'profile',
         component: () => import('@/views/user/profile'),
         meta: { title: '个人资料', icon: 'user' }
+      },
+      {
+        path: 'create',
+        component: () => import('@/views/user/create'),
+        name: 'CreateUser',
+        meta: { title: '新建用户', icon: 'edit' }
+      },
+      {
+        path: 'edit/:id(\\d+)',
+        component: () => import('@/views/user/edit'),
+        name: 'EditUser',
+        meta: { title: '编辑用户', noCache: true },
+        hidden: true
       }
     ]
   },
