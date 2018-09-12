@@ -5,7 +5,6 @@
       <router-link :to="'/sys/user/create/'">
         <el-button type="primary" size="small" icon="el-icon-edit">新建用户</el-button>
       </router-link>
-      <!-- <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button> -->
     </div>
 
     <el-table v-loading.body="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
@@ -18,7 +17,7 @@
       <el-table-column min-width="180px" label="用户名">
         <template slot-scope="scope">
 
-          <router-link :to="'/user/edit/'+scope.row.id" class="link-type">
+          <router-link :to="'/sys/user/edit/'+scope.row.id" class="link-type">
             <span>{{ scope.row.username }}</span>
           </router-link>
         </template>
@@ -42,7 +41,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="手机">
+      <el-table-column width="150px" align="center" label="手机">
         <template slot-scope="scope">
           <span>{{ scope.row.mobilephone }}</span>
         </template>
@@ -54,9 +53,21 @@
         </template>
       </el-table-column>
 
+      <el-table-column width="180px" align="center" label="创建时间">
+        <template slot-scope="scope">
+          <span>{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column width="180px" align="center" label="修改时间">
+        <template slot-scope="scope">
+          <span>{{ scope.row.modifyTime }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="操作" width="120">
         <template slot-scope="scope">
-          <router-link :to="'/user/edit/'+scope.row.id">
+          <router-link :to="'/sys/user/edit/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
         </template>

@@ -8,6 +8,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
+import Content from '../views/layout/Content'
 
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -67,9 +68,10 @@ export const constantRouterMap = [
     children: [
       {
         path: 'user',
-        component: () => import('@/views/sys/user/index'), // Parent router-view
+        component: Content, // Parent router-view
         name: '用户管理',
         meta: { title: '用户管理', icon: 'peoples' },
+        redirect: '/sys/user/list',
         children: [
           {
             path: 'list',
@@ -99,6 +101,12 @@ export const constantRouterMap = [
             hidden: true
           }
         ]
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/sys/role/list'),
+        name: '角色管理',
+        meta: { title: '角色管理', icon: 'role' }
       }
     ]
   },
