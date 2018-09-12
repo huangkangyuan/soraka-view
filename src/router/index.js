@@ -60,94 +60,45 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/nested',
+    path: '/sys',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'nested',
-      icon: 'nested'
-    },
+    name: '系统管理',
+    meta: { title: '系统管理', icon: 'system' },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'menu1' },
+        path: 'user',
+        component: () => import('@/views/sys/user/index'), // Parent router-view
+        name: '用户管理',
+        meta: { title: '用户管理', icon: 'peoples' },
         children: [
           {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'menu1-1' }
+            path: 'list',
+            name: '用户列表',
+            component: () => import('@/views/sys/user/list'),
+            meta: { title: '用户列表', icon: 'list' }
           },
           {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'menu1-2-2' }
-              }
-            ]
+            path: 'profile',
+            name: '个人资料',
+            component: () => import('@/views/sys/user/profile'),
+            meta: { title: '个人资料', icon: 'user' },
+            hidden: true
           },
           {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'menu1-3' }
+            path: 'create',
+            component: () => import('@/views/sys/user/create'),
+            name: '新建用户',
+            meta: { title: '新建用户', icon: 'edit' },
+            hidden: true
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            component: () => import('@/views/sys/user/edit'),
+            name: '编辑用户',
+            meta: { title: '编辑用户', noCache: true },
+            hidden: true
           }
         ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/list',
-    name: 'user',
-    meta: { title: '用户管理', icon: 'peoples' },
-    children: [
-      {
-        path: 'list',
-        name: 'list',
-        component: () => import('@/views/user/list'),
-        meta: { title: '用户列表', icon: 'list' }
-      },
-      {
-        path: 'profile',
-        name: 'profile',
-        component: () => import('@/views/user/profile'),
-        meta: { title: '个人资料', icon: 'user' }
-      },
-      {
-        path: 'create',
-        component: () => import('@/views/user/create'),
-        name: 'CreateUser',
-        meta: { title: '新建用户', icon: 'edit' }
-      },
-      {
-        path: 'edit/:id(\\d+)',
-        component: () => import('@/views/user/edit'),
-        name: 'EditUser',
-        meta: { title: '编辑用户', noCache: true },
-        hidden: true
       }
     ]
   },

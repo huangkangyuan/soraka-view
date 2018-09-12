@@ -1,6 +1,13 @@
 <template>
   <div class="app-container">
 
+    <div class="filter-container">
+      <router-link :to="'/sys/user/create/'">
+        <el-button type="primary" size="small" icon="el-icon-edit">新建用户</el-button>
+      </router-link>
+      <!-- <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ $t('table.add') }}</el-button> -->
+    </div>
+
     <el-table v-loading.body="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
@@ -94,16 +101,16 @@ export default {
     genderFilter(gender) {
       const genderMap = {
         0: '未知',
-        1: '男',
-        2: '女'
+        1: '女',
+        2: '男'
       }
       return genderMap[gender]
     },
     genderClassFilter(gender) {
       const genderMap = {
         0: 'info',
-        1: 'success',
-        2: 'danger'
+        1: 'danger',
+        2: 'success'
       }
       return genderMap[gender]
     }

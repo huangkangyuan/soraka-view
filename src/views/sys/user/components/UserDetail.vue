@@ -2,7 +2,7 @@
   <div class="createPost-container">
     <el-form ref="postForm" :model="postForm" :rules="rules" label-width="80px">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="postForm.username" auto-complete="off" placeholder="请输入用户名"/>
+        <el-input v-model="postForm.username" :disabled="isEdit" auto-complete="off" placeholder="请输入用户名" />
       </el-form-item>
       <el-form-item label="密码" prop="newPassword">
         <el-input v-model="postForm.newPassword" type="password" auto-complete="off" placeholder="请输入密码 不填不更新" />
@@ -167,6 +167,7 @@ export default {
                 type: 'success',
                 duration: 2000
               })
+              this.$router.back()
             }).catch(err => {
               console.log(err)
             })
@@ -178,6 +179,7 @@ export default {
                 type: 'success',
                 duration: 2000
               })
+              this.$router.back()
             }).catch(err => {
               console.log(err)
             })
