@@ -8,7 +8,6 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
-import Content from '../views/layout/Content'
 
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -68,39 +67,16 @@ export const constantRouterMap = [
     children: [
       {
         path: 'user',
-        component: Content, // Parent router-view
+        component: () => import('@/views/sys/user/list'),
         name: '用户管理',
-        meta: { title: '用户管理', icon: 'peoples' },
-        redirect: '/sys/user/list',
-        children: [
-          {
-            path: 'list',
-            name: '用户列表',
-            component: () => import('@/views/sys/user/list'),
-            meta: { title: '用户列表', icon: 'list' }
-          },
-          {
-            path: 'profile',
-            name: '个人资料',
-            component: () => import('@/views/sys/user/profile'),
-            meta: { title: '个人资料', icon: 'user' },
-            hidden: true
-          },
-          {
-            path: 'create',
-            component: () => import('@/views/sys/user/create'),
-            name: '新建用户',
-            meta: { title: '新建用户', icon: 'edit' },
-            hidden: true
-          },
-          {
-            path: 'edit/:id(\\d+)',
-            component: () => import('@/views/sys/user/edit'),
-            name: '编辑用户',
-            meta: { title: '编辑用户', noCache: true },
-            hidden: true
-          }
-        ]
+        meta: { title: '用户管理', icon: 'peoples' }
+      },
+      {
+        path: 'user/profile',
+        name: '个人资料',
+        component: () => import('@/views/sys/user/profile'),
+        meta: { title: '个人资料', icon: 'user' },
+        hidden: true
       },
       {
         path: 'role',
