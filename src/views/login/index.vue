@@ -37,7 +37,9 @@
 </template>
 
 <script>
+// import { getUserMenu } from '@/api/menu'
 import { isvalidUsername } from '@/utils/validate'
+import { initMenu } from '@/router/_router'
 
 export default {
   name: 'Login',
@@ -81,9 +83,13 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          // 登录
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.$store.dispatch('GetMenu').then(data => {
+              initMenu(this.$router, data)
+              this.$router.push({ path: '/' })
+            })
           }).catch(() => {
             this.loading = false
           })
