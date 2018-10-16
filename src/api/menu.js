@@ -25,3 +25,7 @@ export function deleteMenu(id) {
 export function getUserMenu() {
   return request.GET(API_PREFIX + 'userMenu')
 }
+
+export function getMenuTree() {
+  return request.GET(API_PREFIX + 'tree')
+}
