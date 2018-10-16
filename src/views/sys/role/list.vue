@@ -79,10 +79,29 @@
         <el-form-item label="描述" prop="description">
           <el-input v-model="postForm.description"/>
         </el-form-item>
+        <el-form-item v-if="dialogStatus == 'update'" label="状态" prop="status">
+          <el-switch
+            v-model="postForm.status"
+            :active-value="1"
+            :inactive-value="0"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-text="启用"
+            inactive-text="冻结"/>
+        </el-form-item>
+        <el-form-item label="权限" prop="menus">
+          <el-tree
+            ref="menuAddTree"
+            :data="menuTree"
+            :props="treeProps"
+            :check-strictly="dialogStatus == 'update'"
+            show-checkbox
+            node-key="id"/>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-loading="loading" v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
+        <el-button v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
         <el-button v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
@@ -91,7 +110,8 @@
 </template>
 
 <script>
-import { fetchList, updateRole, createRole, deleteRole } from '@/api/role'
+import { get, fetchList, updateRole, createRole, deleteRole } from '@/api/role'
+import { getMenuTree } from '@/api/menu'
 
 export default {
   name: 'RoleList',
@@ -131,7 +151,12 @@ export default {
         name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
         key: [{ required: true, message: '角色标识不能为空', trigger: 'blur' }]
       },
-      postForm: {}
+      postForm: {},
+      treeProps: {
+        children: 'children',
+        label: 'name'
+      },
+      menuTree: []
     }
   },
   created() {
@@ -146,6 +171,23 @@ export default {
         this.listLoading = false
       })
     },
+    getMenus() {
+      getMenuTree().then(response => {
+        this.menuTree = response.data
+      })
+    },
+    /**
+     * 获取选中、半选中节点
+     */
+    getMenuIds() {
+      return this.$refs.menuAddTree.getCheckedKeys().concat(this.$refs.menuAddTree.getHalfCheckedKeys())
+    },
+    /**
+     * (keys, leafOnly) 接收两个参数，1. 勾选节点的 key 的数组 2. boolean 类型的参数，若为 true 则仅设置叶子节点的选中状态，默认值为 false
+     */
+    setMenuIds(keys) {
+      this.$refs.menuAddTree.setCheckedKeys(keys, true)
+    },
     handleSizeChange(val) {
       this.listQuery.limit = val
       this.getList()
@@ -158,7 +200,9 @@ export default {
       this.postForm = {}
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
+      this.getMenus()
       this.$nextTick(() => {
+        this.setMenuIds([])
         this.$refs['postForm'].clearValidate()
       })
     },
@@ -166,6 +210,10 @@ export default {
       this.postForm = Object.assign({}, row) // copy obj
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
+      this.getMenus()
+      get(row.id).then(response => {
+        this.setMenuIds(response.data.menus)
+      })
       this.$nextTick(() => {
         this.$refs['postForm'].clearValidate()
       })
@@ -175,6 +223,7 @@ export default {
         if (valid) {
           this.loading = true
           const params = Object.assign({}, this.postForm)
+          params.menus = this.getMenuIds()
           createRole(params).then(response => {
             this.$notify({
               title: '成功',
@@ -196,6 +245,7 @@ export default {
         if (valid) {
           this.loading = true
           const params = Object.assign({}, this.postForm)
+          params.menus = this.getMenuIds()
           updateRole(params).then(response => {
             this.$notify({
               title: '成功',

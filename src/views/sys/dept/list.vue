@@ -79,10 +79,20 @@
         <el-form-item label="排序" prop="description">
           <el-input v-model="postForm.sequence"/>
         </el-form-item>
+        <el-form-item v-if="dialogStatus == 'update'" label="状态" prop="status">
+          <el-switch
+            v-model="postForm.status"
+            :active-value="1"
+            :inactive-value="0"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-text="启用"
+            inactive-text="冻结"/>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-loading="loading" v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
+        <el-button v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
         <el-button v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>

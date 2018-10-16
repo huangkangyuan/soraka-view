@@ -218,8 +218,6 @@ export default {
         permission: row.permission,
         status: row.status
       }
-      console.log(row)
-      console.log(this.postForm)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

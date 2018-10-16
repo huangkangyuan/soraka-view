@@ -83,7 +83,7 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="postForm" :model="postForm" :rules="rules" label-width="80px">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="postForm.username" :disabled="dialogStatus=='update'" auto-complete="off" placeholder="请输入用户名" />
+          <el-input v-model="postForm.username" :disabled="dialogStatus == 'update'" auto-complete="off" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="密码" prop="newPassword">
           <el-input v-model="postForm.newPassword" type="password" auto-complete="off" placeholder="请输入密码 不填不更新" />
@@ -118,10 +118,20 @@
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+        <el-form-item v-if="dialogStatus == 'update'" label="状态" prop="status">
+          <el-switch
+            v-model="postForm.status"
+            :active-value="1"
+            :inactive-value="0"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-text="启用"
+            inactive-text="冻结"/>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-loading="loading" v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
+        <el-button v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
         <el-button v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
