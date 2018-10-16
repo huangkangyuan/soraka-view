@@ -5,7 +5,7 @@
       <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建部门</el-button>
     </div>
 
-    <el-table v-loading.body="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+    <tree-table v-loading.body="listLoading" :data="list" :eval-func="func" :eval-args="args" :expand-all="expandAll" border>
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
@@ -18,13 +18,19 @@
         </template>
       </el-table-column>
 
+      <el-table-column width="180px" align="center" label="部门编码">
+        <template slot-scope="scope">
+          <span>{{ scope.row.code }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column min-width="120px" align="center" label="上级部门ID">
         <template slot-scope="scope">
           <span>{{ scope.row.parentId }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="500px" align="center" label="排序">
+      <el-table-column width="80px" align="center" label="排序">
         <template slot-scope="scope">
           <span>{{ scope.row.sequence }}</span>
         </template>
@@ -48,36 +54,34 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="200">
+      <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate(scope.row)">新建</el-button>
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
           <el-button type="danger" size="small" @click="deleteData(scope.$index,list,scope.row)">删除</el-button>
         </template>
       </el-table-column>
-    </el-table>
-
-    <div class="pagination-container">
-      <el-pagination
-        :current-page="listQuery.page"
-        :page-sizes="[10,20,30,50]"
-        :page-size="listQuery.limit"
-        :total="total"
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"/>
-    </div>
+    </tree-table>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="postForm" :rules="rules" :model="postForm" label-position="right" label-width="100px" style="width: 800px; margin-left:50px;">
         <el-form-item label="部门名称" prop="name">
           <el-input v-model="postForm.name"/>
         </el-form-item>
-        <el-form-item label="上级部门ID" prop="key">
-          <el-input v-model="postForm.parentId"/>
+        <el-form-item label="部门编码" prop="code">
+          <el-input v-model="postForm.code" :disabled="dialogStatus == 'update'"/>
         </el-form-item>
         <el-form-item label="排序" prop="description">
           <el-input v-model="postForm.sequence"/>
+        </el-form-item>
+        <el-form-item label="上级部门" prop="parentId">
+          <el-select v-model="postForm.parentId" filterable placeholder="请选择">
+            <el-option
+              v-for="departement in depts"
+              :key="departement.id"
+              :label="departement.name"
+              :value="departement.id" />
+          </el-select>
         </el-form-item>
         <el-form-item v-if="dialogStatus == 'update'" label="状态" prop="status">
           <el-switch
@@ -101,10 +105,13 @@
 </template>
 
 <script>
-import { fetchList, updateDept, createDept, deleteDept } from '@/api/dept'
+import treeTable from '@/components/TreeTable'
+import treeToArray from '@/components/TreeTable/customEval'
+import { fetchList, updateDept, createDept, deleteDept, getDeptTree } from '@/api/dept'
 
 export default {
   name: 'DeptList',
+  components: { treeTable },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -123,13 +130,11 @@ export default {
   },
   data() {
     return {
-      list: null,
-      total: 0,
+      func: treeToArray,
+      expandAll: false,
+      list: [],
+      depts: [],
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 10
-      },
       dialogFormVisible: false,
       dialogStatus: '',
       loading: false,
@@ -138,9 +143,11 @@ export default {
         create: '新建'
       },
       rules: {
-        name: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }]
+        name: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }],
+        code: [{ required: true, message: '部门编码不能为空', trigger: 'blur' }]
       },
-      postForm: {}
+      postForm: {},
+      args: [null, null]
     }
   },
   created() {
@@ -149,22 +156,31 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.rows
-        this.total = response.data.total
+      getDeptTree().then(response => {
+        this.list = response.data
         this.listLoading = false
       })
     },
-    handleSizeChange(val) {
-      this.listQuery.limit = val
-      this.getList()
+    getAllDepts() {
+      fetchList().then(response => {
+        this.depts = response.data.rows.concat({ id: 0, name: '公司' })
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    handleCurrentChange(val) {
-      this.listQuery.page = val
-      this.getList()
-    },
-    handleCreate() {
-      this.postForm = {}
+    handleCreate(row) {
+      if (row) {
+        this.postForm = {
+          parentId: row.id,
+          sequence: row.children.length + 1
+        }
+      } else {
+        this.postForm = {
+          parentId: 0,
+          sequence: this.list.length + 1
+        }
+      }
+      this.getAllDepts()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -172,7 +188,15 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.postForm = Object.assign({}, row) // copy obj
+      this.postForm = {
+        id: row.id,
+        parentId: row.parentId,
+        name: row.name,
+        code: row.code,
+        status: row.status,
+        sequence: row.sequence
+      }
+      this.getAllDepts()
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

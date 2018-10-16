@@ -118,7 +118,7 @@
 
 <script>
 import treeTable from '@/components/TreeTable'
-import treeToArray from './customEval'
+import treeToArray from '@/components/TreeTable/customEval'
 import { getMenuTree, updateMenu, createMenu, deleteMenu } from '@/api/menu'
 
 export default {
@@ -159,7 +159,6 @@ export default {
       func: treeToArray,
       expandAll: false,
       list: [],
-      total: 0,
       listLoading: true,
       dialogFormVisible: false,
       dialogStatus: '',

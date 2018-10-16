@@ -21,3 +21,7 @@ export function updateDept(data) {
 export function deleteDept(id) {
   return request.DELETE(API_PREFIX + id)
 }
+
+export function getDeptTree() {
+  return request.GET(API_PREFIX + 'tree')
+}
