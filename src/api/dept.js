@@ -1,6 +1,6 @@
 import * as request from '@/utils/request'
 
-const API_PREFIX = '/dept/'
+const API_PREFIX = '/admin/dept/'
 
 export function get(id) {
   return request.GET(API_PREFIX + id)

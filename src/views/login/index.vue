@@ -86,6 +86,7 @@ export default {
           // 登录
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
+            this.$store.dispatch('GetUserInfo')
             this.$store.dispatch('GetMenu').then(data => {
               initMenu(this.$router, data)
               this.$router.push({ path: '/' })

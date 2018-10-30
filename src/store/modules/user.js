@@ -1,4 +1,4 @@
-import { login, logout } from '@/api/login'
+import { login, getUserInfo } from '@/api/login'
 import { getUserMenu } from '@/api/menu'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { setStore, getStore } from '@/utils/store'
@@ -9,6 +9,9 @@ import { setStore, getStore } from '@/utils/store'
 const user = {
   state: {
     token: getToken(),
+    refreshToken: getStore({
+      name: 'refreshToken'
+    }) || {},
     userInfo: getStore({
       name: 'userInfo'
     }) || {},
@@ -27,6 +30,14 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.token = token
       setToken(token)
+    },
+    SET_REFRESH_TOKEN: (state, refreshToken) => {
+      state.refreshToken = refreshToken
+      setStore({
+        name: 'refreshToken',
+        content: state.refreshToken,
+        type: 'session'
+      })
     },
     SET_USER_INFO: (state, userInfo) => {
       state.userInfo = userInfo
@@ -68,11 +79,9 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          commit('SET_TOKEN', data.token)
-          commit('SET_USER_INFO', data.user)
-          commit('SET_ROLES', data.user.roles)
-          commit('SET_PERMISSIONS', data.user.permissions)
+          const data = response
+          commit('SET_TOKEN', data.access_token)
+          commit('SET_REFRESH_TOKEN', data.refresh_token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -83,17 +92,15 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_USER_INFO', [])
-          commit('SET_ROLES', [])
-          commit('SET_MENU', [])
-          commit('SET_PERMISSIONS', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        // 暂时只支持伪退出
+        commit('SET_TOKEN', '')
+        commit('SET_REFRESH_TOKEN', '')
+        commit('SET_USER_INFO', '')
+        commit('SET_ROLES', [])
+        commit('SET_MENU', [])
+        commit('SET_PERMISSIONS', [])
+        removeToken()
+        resolve()
       })
     },
 
@@ -101,7 +108,8 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
-        commit('SET_USER_INFO', [])
+        commit('SET_REFRESH_TOKEN', '')
+        commit('SET_USER_INFO', '')
         commit('SET_ROLES', [])
         commit('SET_MENU', [])
         commit('SET_PERMISSIONS', [])
@@ -116,6 +124,18 @@ const user = {
         getUserMenu().then(response => {
           const data = response.data
           commit('SET_MENU', data)
+          resolve(data)
+        })
+      })
+    },
+
+    // 获取系统菜单
+    GetUserInfo({ commit }) {
+      return new Promise(resolve => {
+        getUserInfo().then(response => {
+          const data = response
+          commit('SET_USER_INFO', data.user)
+          commit('SET_PERMISSIONS', data.permissions)
           resolve(data)
         })
       })
