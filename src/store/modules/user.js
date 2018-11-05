@@ -20,7 +20,7 @@ const user = {
     }) || [],
     permissions: getStore({
       name: 'permissions'
-    }) || [],
+    }) || {},
     menu: getStore({
       name: 'menu'
     }) || []
@@ -48,10 +48,15 @@ const user = {
       })
     },
     SET_PERMISSIONS: (state, permissions) => {
-      state.permissions = permissions
+      // 权限以map形式存储，降低取数复杂度
+      const perms = {}
+      for (let i = 0; i < permissions.length; i++) {
+        perms[permissions[i]] = true
+      }
+      state.permissions = perms
       setStore({
         name: 'permissions',
-        content: state.permissions,
+        content: state.permipermsssions,
         type: 'session'
       })
     },
@@ -129,7 +134,7 @@ const user = {
       })
     },
 
-    // 获取系统菜单
+    // 获取用户信息
     GetUserInfo({ commit }) {
       return new Promise(resolve => {
         getUserInfo().then(response => {

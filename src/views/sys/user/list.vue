@@ -2,7 +2,7 @@
   <div class="app-container">
 
     <div class="filter-container">
-      <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
+      <el-button v-has="'sys_user_add'" type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
     </div>
 
     <el-table v-loading.body="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
@@ -62,8 +62,8 @@
 
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="deleteData(scope.$index,list,scope.row)">删除</el-button>
+          <el-button v-has="'sys_user_update'" type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-has="'sys_user_delete'" type="danger" size="small" @click="deleteData(scope.$index,list,scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,8 +131,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
-        <el-button v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
+        <el-button v-has="'sys_user_add'" v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
+        <el-button v-has="'sys_user_update'" v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
 

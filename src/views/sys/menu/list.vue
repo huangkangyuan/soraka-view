@@ -2,7 +2,7 @@
   <div class="app-container">
 
     <div class="filter-container">
-      <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建菜单</el-button>
+      <el-button v-has="'sys_menu_add'" type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建菜单</el-button>
     </div>
 
     <tree-table v-loading.body="listLoading" :data="list" :eval-func="func" :eval-args="args" :expand-all="expandAll" border>
@@ -62,9 +62,9 @@
 
       <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate(scope.row)">新建</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="deleteData(scope.$index,list,scope.row)">删除</el-button>
+          <el-button v-has="'sys_menu_add'" type="primary" size="small" icon="el-icon-edit" @click="handleCreate(scope.row)">新建</el-button>
+          <el-button v-has="'sys_menu_update'" type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-has="'sys_menu_delete'" type="danger" size="small" @click="deleteData(scope.$index,list,scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </tree-table>
@@ -108,8 +108,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
-        <el-button v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
+        <el-button v-has="'sys_menu_add'" v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
+        <el-button v-has="'sys_menu_update'" v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
 

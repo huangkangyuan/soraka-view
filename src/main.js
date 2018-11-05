@@ -25,3 +25,25 @@ new Vue({
   store,
   render: h => h(App)
 })
+
+/**
+ * 权限指令
+ */
+Vue.directive('has', {
+  bind: function(el, binding) {
+    if (!Vue.prototype.$_has(binding.value)) {
+      el.parentNode.removeChild(el)
+    }
+  }
+})
+
+/**
+ * 权限检查方法
+ */
+Vue.prototype.$_has = function(value) {
+  const permissions = store.state.user.permissions
+  if (!permissions[value]) {
+    return false
+  }
+  return true
+}
