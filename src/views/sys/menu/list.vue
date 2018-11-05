@@ -109,7 +109,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button v-has="'sys_menu_add'" v-loading="loading" v-if="dialogStatus == 'create'" type="primary" @click="createData">确定</el-button>
-        <el-button v-has="'sys_menu_update'" v-loading="loading" v-else type="primary" @click="updateData">确定</el-button>
+        <el-button v-has="'sys_menu_update'" v-loading="loading" v-else-if="dialogStatus == 'update'" type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
 
@@ -161,7 +161,7 @@ export default {
       list: [],
       listLoading: true,
       dialogFormVisible: false,
-      dialogStatus: '',
+      dialogStatus: 'create',
       loading: false,
       textMap: {
         update: '编辑',

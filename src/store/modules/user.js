@@ -56,7 +56,7 @@ const user = {
       state.permissions = perms
       setStore({
         name: 'permissions',
-        content: state.permipermsssions,
+        content: state.permissions,
         type: 'session'
       })
     },
