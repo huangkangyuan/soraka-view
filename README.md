@@ -9,6 +9,8 @@
 - 基于`Vue 2.0`的后台解决方案
 - 基于饿了么`Element UI`
 
+**交流QQ群：808305454**
+
 # 项目介绍
 
 Soraka一个基于Spring Cloud的基础通用开发框架，有高效率，低封装的特点，非常适合学习和中小企业直接作为开发框架使用。
@@ -63,6 +65,18 @@ npm run build --report
 
 3. IDE工具推荐使用Visual Studio Code
 
+# 文档
+
+1. [快速开始](https://gitee.com/beiyoufx/soraka/blob/master/soraka-wiki/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md)
+
 # 演示
 
 ![Soraka演示](https://gitee.com/beiyoufx/soraka-view/raw/master/demo.gif)
+
+# 关注我们
+
+公众号 **Java实践笔记**
+
+分享Java开发中常用的技术，分享软件开发的新技术，分享业内相关的解决方案和互联网资讯，让自己做一个紧跟时代潮流的程序猿~
+
+![img](https://gitee.com/beiyoufx/soraka-view/raw/master/javanoteqr.jpg)
