@@ -68,6 +68,7 @@ npm run build --report
 # 文档
 
 1. [快速开始](https://gitee.com/beiyoufx/soraka/blob/master/soraka-wiki/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md)
+2. [常见问题](https://gitee.com/beiyoufx/soraka/blob/master/soraka-wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md)
 
 # 演示
 
