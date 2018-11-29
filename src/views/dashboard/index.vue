@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="banner-text">
+      <p><img src="/logo.png"></p>
       <h2>Soraka 一个基于Spring Cloud的微服务通用开发框架</h2>
       <span align="center">
         <a href="https://github.com/vuejs/vue" target="_blank">
@@ -10,10 +11,10 @@
           <img src="https://img.shields.io/badge/element--ui-2.4.6-brightgreen.svg" alt="element-ui">
         </a>
         <a href="https://spring.io/projects/spring-boot" target="_blank">
-          <img src="https://img.shields.io/badge/spring--boot-1.5.15.RELEASE-blue.svg" alt="spring-boot">
+          <img src="https://img.shields.io/badge/spring--boot-2.0.6.RELEASE-blue.svg" alt="spring-boot">
         </a>
         <a href="https://spring.io/projects/spring-cloud" target="_blank">
-          <img src="https://img.shields.io/badge/spring--cloud-Edgware.SR4-blue.svg" alt="spring-cloud">
+          <img src="https://img.shields.io/badge/spring--cloud-Finchley.SR2-blue.svg" alt="spring-cloud">
         </a>
         <a href="https://gitee.com/beiyoufx/soraka" target="_blank">
           <img src="https://img.shields.io/badge/license-Apache 2.0-green.svg" alt="license">
@@ -24,11 +25,13 @@
         <el-collapse v-model="activeNames">
           <el-collapse-item title="项目简介" name="1">
             <a href="https://gitee.com/beiyoufx/soraka" target="_blank">
-              <div>前后端完全分离，基于Spring Boot 1.5.15.RELEASE</div>
+              <div>前后端完全分离，基于Spring Boot 2.0.6.RELEASE</div>
               <div>基于网关的统一权限管理，更高效更方便</div>
               <div>基于Spring Security OAuth实现按钮级细粒度权限控制</div>
               <div>Apache LICENSE 2.0，完全开源</div>
             </a>
+            <div><b>交流QQ群：808305454</b></div>
+            <div><a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=877fcbadc481d534157cd795e0ebb6effe6e4e4fb497b2732f5c67b54e347283"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Spring Cloud微服务学习交" title="Spring Cloud微服务学习交"></a></div>
           </el-collapse-item>
           <el-collapse-item title="获取源码" name="2">
             <div>

@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/dev': {
-        target: 'http://api.soraka.com',
+        target: 'http://localhost',
         changeOrigin: true,
         pathRewrite: {
           '^/dev': ''
